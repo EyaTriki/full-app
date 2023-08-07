@@ -6,7 +6,7 @@ import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlin
 
 const widgetData = {
   user: {
-    title: 'EMPLOYEES',
+    title: 'TOTAL EMPLOYEES',
     isMoney: false,
     link: 'See all employees',
     icon: (
@@ -20,7 +20,7 @@ const widgetData = {
     ),
   },
   earning: {
-    title: 'SOCIAL',
+    title: 'SOCIAL EXPENSES',
     isMoney: true,
     link: 'View details',
     icon: (
