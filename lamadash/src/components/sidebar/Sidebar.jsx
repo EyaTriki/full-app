@@ -47,7 +47,7 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="top">
       <Link to="/" style={{textDecoration:"none"}}>
-          <span className="logo">EyyaHR</span>
+          <span className="logo">HR3</span>
           </Link>
       </div>
       <hr />
@@ -108,7 +108,8 @@ const Sidebar = () => {
           </li>
           <li>
             <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
+            <Link to="/settings" style={{ textDecoration: "none" }}>
+            <span>Settings</span></Link>
           </li>
           <div className="bottom">
         <div

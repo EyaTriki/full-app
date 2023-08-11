@@ -1,43 +1,47 @@
 const mongoose =require("mongoose");
 const employeSchema = mongoose.Schema({
-
-  image:{
-    type:String,
-  }, 
   name:{
     type:String,
-    required:[true, "Please add the employe name"],
+   // required:[true, "Please add the employe name"],
   },
   role:{
     type:String,
   }, 
   email:{
     type:String,
-    required:[true, "Please add the contact email adress"],
+    required:true,
   },
   phone:{
     type:String,
-    required:[true, "Please add the phone number"],
+    //required:[true, "Please add the phone number"],
   },
+  image:{
+    type:String,
+  }, 
   password:{
     type:String,
+    required:[true, "Please add a password"],
   },
   joining:{
-    type:String,
+    type:Date,
   }, 
   birth:{
-    type:String,
+    type:Date,
   }, 
+  notifications:[
+    {
+      type: String, 
+    },
+  ],
   user_id:{
     type:mongoose.Schema.Types.ObjectId,
     required:true,
     ref:"User",
   },
- /*  conges:[{
+   /* conges:[{
     type:mongoose.Schema.Types.ObjectId,
-    required:true,
     ref:"Conge",
-  }], */
+  }],  */
  
 },{
     timestamps:true

@@ -17,9 +17,9 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      default: "HR",
-    }, 
-  },
+     /*  enum: ["admin", "rh"], // Enum values: "admin" or "rh" */
+      default: "rh", // Default value is "rh"
+    }  },
   {
     timestamps: true,
   }

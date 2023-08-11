@@ -3,8 +3,8 @@ export const userInputs = [
   {
     id: 1,
     label: "Image",
-   // type: "file",
-   // placeholder: "Eya",
+ // type: "file",
+   
   },{
       id: 2,
       label: "Name",

@@ -21,36 +21,33 @@ const Single = () => {
                 className="itemImg"
               />
               <div className="details">
-                <h1 className="itemTitle">Jane Doe</h1>
+                <h1 className="itemTitle">Eya</h1>
                 <div className="detailItem">
                   <span className="itemKey">Email:</span>
-                  <span className="itemValue">janedoe@gmail.com</span>
+                  <span className="itemValue">Eya@gmail.com</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Phone:</span>
-                  <span className="itemValue">+1 2345 67 89</span>
+                  <span className="itemValue">+216 345 785</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Address:</span>
                   <span className="itemValue">
-                    Elton St. 234 Garden Yd. NewYork
+                    Monastir
                   </span>
                 </div>
-                <div className="detailItem">
-                  <span className="itemKey">Country:</span>
-                  <span className="itemValue">USA</span>
-                </div>
+              
               </div>
             </div>
           </div>
-          <div className="right">
+         <div className="right">
             <Chart aspect={4 / 1} title="User Spending ( Last 6 Months)" />
-          </div>
+          </div> 
         </div>
-        <div className="bottom">
+      {/*   <div className="bottom">
         <h1 className="title">Last Transactions</h1>
           <List/>
-        </div>
+        </div> */}
       </div>
     </div>
   );

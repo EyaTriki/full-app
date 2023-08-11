@@ -14,6 +14,6 @@ router.post("/register", registerUser);
 router.post("/refresh", refresh);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
-router.get("/current", currentUser);
+router.get("/current", validateToken,currentUser);
 
 module.exports = router;

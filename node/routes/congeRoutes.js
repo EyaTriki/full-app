@@ -7,9 +7,11 @@ const {
      updateConge,
      deleteConge
 }=require ("../controllers/congeController");
-const validateToken = require("../middleware/validateTokenHandler");
+const validateToken1 = require("../middleware/validateTokenHandler");
+//const validateToken1 = require("../middleware/validateTokenHandler");
 
-router.use(validateToken);
+//router.use(validateToken1);
+router.use(validateToken1);
 router.route("/").get(getConges).post(createConge);
 router.route("/:id").get(getConge).put(updateConge).delete(deleteConge);
 

@@ -1,87 +1,10 @@
-/* const asyncHandler = require("express-async-handler");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
 
-
-const registerUser = asyncHandler(async (req, res) => {
-  const { username, email, password, role } = req.body;
-  if (!username || !email || !password) {
-    res.status(400);
-    throw new Error("All fields are required!");
-  }
-  const userAvailable = await User.findOne({ email });
-  if (userAvailable) {
-    res.status(400);
-    throw new Error("User already registered!");
-  }
-
-  //Hash password
-  const hashedPassword = await bcrypt.hash(password, 10);
-  console.log("Hashed Password: ", hashedPassword);
-  const user = await User.create({
-    username,
-    email,
-    role,
-    password: hashedPassword,
-  });
-
-  console.log(`User created ${user}`);
-  if (user) {
-    res.status(201).json({ _id: user.id, email: user.email });
-  } else {
-    res.status(400);
-    throw new Error("User data is not valid");
-  }
-  res.json({ message: "Register" });
-});
-
-
-const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  //console.log(req.body)
-  if (!email || !password) {
-    res.status(400);
-    throw new Error("All fields are required!");
-  }
-  const user = await User.findOne({ email });
-  //console.log(user);
-  //compare password with hashedpassword
-  if (user && (await bcrypt.compare(password, user.password))) {
-    const accessToken = jwt.sign(
-      {
-        user: {
-          username: user.username,
-          email: user.email,
-          role:user.role,
-          id: user.id,
-        },
-      },
-      process.env.ACCESS_TOKEN_SECERT,
-     // { expiresIn: "30m" }
-    );
-    res.status(200).json({ accessToken });
-    console.log(accessToken);
-  } else {
-    res.status(401);
-    throw new Error("email or password is not valid");
-  }
-});
-
-
- const currentUser = asyncHandler(async (req, res) => {
-  res.json(req.user);
-}); 
-
-
-
-
-module.exports = { registerUser, loginUser,currentUser }; */
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
+
 const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password, role } = req.body;
   if (!username || !email || !password) {
@@ -102,6 +25,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     role,
     password: hashedPassword,
+  
   });
 
   console.log(`User created ${user}`);
@@ -152,7 +76,7 @@ const generateAccessToken = (user) => {
     role:user.role,
     id: user.id,
  } }, "mySecretKey", {
-    expiresIn: "15min",
+    expiresIn: "1h",
   });
 };
 
@@ -189,9 +113,19 @@ const loginUser = asyncHandler(async(req, res) => {
   }
 });
 
-const currentUser = asyncHandler(async (req, res) => {
+/* const currentUser = asyncHandler(async (req, res) => {
   res.json(req.user);
-}); 
+  console.log(req.user.email)
+});  */
+
+const currentUser = asyncHandler(async (req, res) => {
+  try {
+    const user = await res.json(req.user); // Get the user object
+  
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving user email" });
+  }
+});
 
 
 
@@ -201,4 +135,33 @@ const logoutUser = asyncHandler(async(req, res) => {
   res.status(200).json({ message: "You logged out successfully." });
 });
 
-module.exports = {logoutUser, loginUser, refresh ,currentUser ,registerUser}; 
+const respondToConge = asyncHandler(async (req, res) => {
+  const { response, comment } = req.body;
+  const congeId = req.params.congeId;
+
+  const conge = await Conge.findById(congeId);
+
+  if (!conge) {
+    res.status(404);
+    throw new Error("Leave request not found");
+  }
+
+  if (response === "Approved" || response === "Rejected") {
+    conge.reponse = response;
+    conge.commentaireHR = comment;
+    await conge.save();
+
+    // Update the Employee's notifications array
+    const employee = await Employee.findById(conge.employe_id);
+    employee.notifications.push(`Your leave request has been ${response.toLowerCase()}.`);
+    await employee.save();
+
+    res.status(200).json({ message: `Leave request ${response.toLowerCase()} successfully` });
+  } else {
+    res.status(400);
+    throw new Error("Invalid response value");
+  }
+});
+
+
+module.exports = {logoutUser, loginUser, refresh ,currentUser ,registerUser,respondToConge}; 

@@ -1,0 +1,59 @@
+.list {
+    display: flex;
+    width: 100%;
+  
+    .listContainer {
+      flex: 6;
+    }
+  
+    .settings {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+  
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+  
+      .settings-section {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+  
+        h3 {
+          font-size: 18px;
+          margin-bottom: 10px;
+        }
+  
+        p {
+          font-size: 16px;
+          margin-bottom: 15px;
+        }
+  
+        button {
+          background-color: #f44336;
+          color: #fff;
+          border: none;
+          padding: 10px 20px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+  
+          &:hover {
+            background-color: #d32f2f;
+          }
+  
+          &:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+          }
+  
+          &:not(:last-child) {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+  

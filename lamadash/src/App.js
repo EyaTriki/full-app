@@ -8,7 +8,7 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
-
+import  Settings from "./pages/settings/Settings";
 import {userInputs, productInputs} from'./formSource';
 import './style/dark.scss'
 import { useContext } from "react";
@@ -44,7 +44,7 @@ function App() {
                   <Route path=":userId" element={<Single />} />
                   <Route path="new" element={<New inputs={userInputs} title="Add New Employee" />} />
                 </Route>
-  
+                <Route path="/settings" element={<Settings />} />
                 {/* Nested routes for products */}
                  <Route path="products">
                   <Route index element={<List />} />

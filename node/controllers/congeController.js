@@ -7,23 +7,34 @@ const getConges =asyncHandler(async(req,res)=>{
     res.status(200).json(conges);
 })
 
-const createConge= asyncHandler(async(req,res)=>{
-    console.log("the req body is:" , req.body);
-    const {raison, paye,debut,fin} = req.body;
-    if(!raison ||!paye ||!debut || !fin){
+const createConge = asyncHandler(async (req, res) => {
+    try {
+        console.log("Received request body:", req.body);
+      const { type, raison, paye, duree, debut, fin } = req.body;
+      console.log(req)
+      if (!type || !debut || !fin) {
         res.status(400);
-        throw new Error ("All filed are required!");
-}
-const conge = await Conge.create({
-    raison,
-    paye,
-    debut,
-    fin,
-    employe_id: req.user.id,
-});
-res.status(201).json(conge);
-
-})
+        throw new Error("All fields are required!");
+      }
+  
+      const conge = await Conge.create({
+        type,
+        raison,
+        paye,
+        duree,
+        debut,
+        fin,
+        reponse: "Pending",
+        employe_id: req.user.id,
+      });
+  
+      res.status(201).json(conge);
+    } catch (error) {
+      console.error("Error creating conge:", error);
+      res.status(500).json({ message: "An error occurred while creating conge" });
+    }
+  });
+  
 
 const getConge = asyncHandler(async (req,res)=>{
     const conge = await  Conge.findById(req.params.id);

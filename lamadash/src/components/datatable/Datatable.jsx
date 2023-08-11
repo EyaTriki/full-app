@@ -28,10 +28,14 @@ const Datatable = () => {
         setData(
           response.data.map((user, index) => ({
             id: index + 1,
-            img: user.img,
+            image: user.image,
             name: user.name,
+            role:user.role,
             email: user.email,
-            phone: user.phone,
+            /* phone: user.phone,
+            password:user.password,
+            joining:user.joining,
+            birth:user.birth */
           }))
         );
       }
@@ -45,8 +49,16 @@ const Datatable = () => {
     fetchData();
   }, [isAuthenticated]);
 
-const handleDelete =(id)=>{
-  setData(data.filter((item)=>item.id !== id))
+const handleDelete =async(id)=>{
+  try {
+    const token = localStorage.getItem('access_token');
+    await axios.delete('/employes/${id}',{
+      headers:{'Authorization':`Bearer ${token}`},
+    });
+    setData(data.filter((item)=>item.id !== id));
+  } catch (error) {
+    console.log('Error deleting emplyee:',error);
+  }
 }
   const actionColumn = [
     {
