@@ -100,7 +100,6 @@ const getEmploye= asyncHandler(async (req,res)=>{
     console.log(req.params.id)
     if (!employe) {
         res.status(404);
-        console.log("mahouch mawjoud!")
         throw new Error ('Employe not found!');
         }
         res.status(200).json(employe);
@@ -110,13 +109,12 @@ const updateEmploye = asyncHandler(async(req,res)=>{
     const employe = await Employe.findById(req.params.id);
     if (!employe) {
         res.status(404);
-        console.log("mahouch mawjoud!")
         throw new Error ('Employe not found!');
         }
 
         if (employe.user_id.toString() !== req.user.id){
             res.status(403);
-            throw new Error ("user don't have permission to update other user employes");
+            throw new Error ("user don't have permission to update other user's employees");
         }
 
     const updatedEmploye = await Employe.findByIdAndUpdate(

@@ -27,14 +27,14 @@ const createConge = asyncHandler(async (req, res) => {
         debut,
         fin,
         reponse: "Pending",
-        commentaireHR,
+
         employe_id: req.user.id,
       });
   
       res.status(201).json(conge);
     } catch (error) {
-      console.error("Error creating conge:", error);
-      res.status(500).json({ message: "An error occurred while creating conge" });
+      console.error("Error creating leave request:", error);
+      res.status(500).json({ message: "An error occurred while creating leave request" });
     }
   });
   
@@ -44,8 +44,8 @@ const getConge = asyncHandler(async (req,res)=>{
     console.log(req.params.id)
     if (!conge) {
         res.status(404);
-        console.log("mahouch mawjoud!")
-        throw new Error ('Conge not found!');
+      
+        throw new Error ('leave request not found!');
         }
         res.status(200).json(conge);
 })
@@ -54,12 +54,12 @@ const updateConge = asyncHandler(async(req,res)=>{
     const conge = await Conge.findById(req.params.id);
     if (!conge) {
         res.status(404);
-        throw new Error ('Conge not found!');
+        throw new Error ('leave request not found!');
         }
         console.log(conge.employe_id ,req.user.id )
         if (conge.employe_id.toString() !== req.user.id) {
             res.status(403);
-            throw new Error ("user don't have permission to update other user contacts");
+            throw new Error ("user don't have permission to update other user leave requests");
         }
 
     const updatedConge = await Conge.findByIdAndUpdate(
@@ -68,7 +68,7 @@ const updateConge = asyncHandler(async(req,res)=>{
         {new:true}
     );
     res.status(200).json(updatedConge);
-    console.log("Request updated successfully!")
+    console.log("Leave request updated successfully!")
 })
 
 const respondToConge = asyncHandler(async (req, res) => {
@@ -104,15 +104,14 @@ const deleteConge = asyncHandler (async (req,res)=>{
     const conge = await Conge.findById(req.params.id);
     if (!conge) {
         res.status(404);
-        console.log("mahouch mawjoud!")
-        throw new Error ('Conge not found!');
+        throw new Error ('Leave request not found!');
         }
         if (conge.employe_id.toString() !== req.user.id){
             res.status(403);
-            throw new Error ("user don't have permission to update other user contacts");
+            throw new Error ("user don't have permission to delete other user's leave requests");
         }
         await Conge.deleteOne({ _id: req.params.id });
-        res.status(200).json({message:'Request removed successfully!'});
+        res.status(200).json({message:'Leave request removed successfully!'});
 })
 
 module.exports = {

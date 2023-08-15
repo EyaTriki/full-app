@@ -38,10 +38,7 @@ const employeSchema = mongoose.Schema({
     required:true,
     ref:"User",
   },
-   /* conges:[{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"Conge",
-  }],  */
+ 
  
 },{
     timestamps:true
