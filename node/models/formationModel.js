@@ -1,5 +1,5 @@
 const mongoose =require("mongoose");
-const documentsSchema = mongoose.Schema({
+const formationSchema = mongoose.Schema({
   employe_id:{
     type:mongoose.Schema.Types.ObjectId,
     required:true,
@@ -13,10 +13,10 @@ const documentsSchema = mongoose.Schema({
     required:true,
   },
   debut:{
-    type:Date,
+    type:String,
   },
   fin:{
-    type:Date,
+    type:String,
   },
   desc: {
     type: String,

@@ -22,6 +22,8 @@ app.use("/api/employes" , require ("./routes/employeRoutes"));
 app.use("/api/users" , require ("./routes/userRoutes"));
 app.use("/api/resignations" , require ("./routes/resignationRoutes"));
 app.use("/api/remotes" , require ("./routes/remoteRoutes"));
+app.use("/api/formations" , require ("./routes/formationRoutes"));
+
 
 app.use(errorHandler);
 
