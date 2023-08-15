@@ -74,7 +74,7 @@ const employeeLogin = asyncHandler(async (req, res) => {
 
     // Generate an access token
     const accessToken = jwt.sign({ employeeId: employee._id }, "mySecretKey", { expiresIn: "1h" });
-
+    console.log(employee._id)
     res.status(200).json({ accessToken });
   } catch (error) {
     console.error("Error during login:", error);

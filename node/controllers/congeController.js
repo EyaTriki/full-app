@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Conge = require("../models/congeModel");
-
+const jwt = require("jsonwebtoken");
 
 const getConges =asyncHandler(async(req,res)=>{
     const conges=await Conge.find({employe_id: req.user.id});
@@ -25,7 +25,7 @@ const createConge = asyncHandler(async (req, res) => {
         debut,
         fin,
         reponse: "Pending",
-        employe_id: req.user.id,
+        employe_id: req.employeeId,
       });
   
       res.status(201).json(conge);

@@ -9,7 +9,7 @@ const {
      deleteEmploye
 }=require ("../controllers/employeController");
 const validateToken = require("../middleware/validateTokenHandler");
-
+//const validateToken1 = require("../middleware/validateTokenHandler");
 //const verifyTokenAndAuthorization = require("../middleware/validateTokenHandler");
 
 

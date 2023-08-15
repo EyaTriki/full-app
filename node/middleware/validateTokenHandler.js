@@ -19,10 +19,11 @@ const validateToken1 = asyncHandler(async (req, res, next) => {
       res.status(401).json({ message: "User is not authorized" });
       return; 
     }
-    req.user = decoded.user;
+    req.user = decoded.employeeId; 
     next();
   });
-}); 
+});
+
 
 
 const validateToken = asyncHandler(async (req, res, next) => {
