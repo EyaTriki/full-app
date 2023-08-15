@@ -135,33 +135,6 @@ const logoutUser = asyncHandler(async(req, res) => {
   res.status(200).json({ message: "You logged out successfully." });
 });
 
-const respondToConge = asyncHandler(async (req, res) => {
-  const { response, comment } = req.body;
-  const congeId = req.params.congeId;
-
-  const conge = await Conge.findById(congeId);
-
-  if (!conge) {
-    res.status(404);
-    throw new Error("Leave request not found");
-  }
-
-  if (response === "Approved" || response === "Rejected") {
-    conge.reponse = response;
-    conge.commentaireHR = comment;
-    await conge.save();
-
-    // Update the Employee's notifications array
-    const employee = await Employee.findById(conge.employe_id);
-    employee.notifications.push(`Your leave request has been ${response.toLowerCase()}.`);
-    await employee.save();
-
-    res.status(200).json({ message: `Leave request ${response.toLowerCase()} successfully` });
-  } else {
-    res.status(400);
-    throw new Error("Invalid response value");
-  }
-});
 
 
-module.exports = {logoutUser, loginUser, refresh ,currentUser ,registerUser,respondToConge}; 
+module.exports = {logoutUser, loginUser, refresh ,currentUser ,registerUser}; 

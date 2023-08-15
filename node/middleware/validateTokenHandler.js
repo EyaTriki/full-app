@@ -67,7 +67,7 @@ const validateToken = asyncHandler(async (req, res, next) => {
 
 
 
-/*    const verifyTokenAndAuthorization =asyncHandler(async(req,res,next)=>{
+   const verifyTokenAndAuthorization =asyncHandler(async(req,res,next)=>{
   validateToken(req,res,()=>{
       if( req.user.role==="rh"){
           next();
@@ -76,7 +76,7 @@ const validateToken = asyncHandler(async (req, res, next) => {
       }
   })
 }); 
- 
+ /*
 const verifyTokenAndAdminAuthorization =asyncHandler(async(req,res,next)=>{
   validateToken(req,res,()=>{
       if( req.user.role==="admin"){
@@ -87,4 +87,4 @@ const verifyTokenAndAdminAuthorization =asyncHandler(async(req,res,next)=>{
   })
 });  */
  
-module.exports =validateToken, validateToken1 ;
+module.exports =validateToken, validateToken1,verifyTokenAndAuthorization ;

@@ -47,6 +47,13 @@ const createEmploye = asyncHandler(async (req, res) => {
   }
 });
 
+const generateAccessToken = (user) => {
+  return jwt.sign( {user: {
+    id: user.id,
+ } }, "mySecretKey", {
+    expiresIn: "1h",
+  });
+};
 
 const employeeLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -73,8 +80,12 @@ const employeeLogin = asyncHandler(async (req, res) => {
     }
 
     // Generate an access token
-    const accessToken = jwt.sign({ employeeId: employee._id }, "mySecretKey", { expiresIn: "1h" });
+   /*  const accessToken = jwt.sign({ employeeId: employee._id }, "mySecretKey", { expiresIn: "1h" });
     console.log(employee._id)
+    res.status(200).json({ accessToken }); */
+    const accessToken = generateAccessToken (employee) ;
+    
+
     res.status(200).json({ accessToken });
   } catch (error) {
     console.error("Error during login:", error);

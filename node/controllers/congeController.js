@@ -1,6 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const Conge = require("../models/congeModel");
 const jwt = require("jsonwebtoken");
+const Employe = require("../models/employeModel");
+
 
 const getConges =asyncHandler(async(req,res)=>{
     const conges=await Conge.find({employe_id: req.user.id});
@@ -11,7 +13,7 @@ const createConge = asyncHandler(async (req, res) => {
     try {
         console.log("Received request body:", req.body);
       const { type, raison, paye, duree, debut, fin } = req.body;
-      console.log(req)
+      
       if (!type || !debut || !fin) {
         res.status(400);
         throw new Error("All fields are required!");
@@ -25,7 +27,8 @@ const createConge = asyncHandler(async (req, res) => {
         debut,
         fin,
         reponse: "Pending",
-        employe_id: req.employeeId,
+        commentaireHR,
+        employe_id: req.user.id,
       });
   
       res.status(201).json(conge);
@@ -51,11 +54,10 @@ const updateConge = asyncHandler(async(req,res)=>{
     const conge = await Conge.findById(req.params.id);
     if (!conge) {
         res.status(404);
-        console.log("mahouch mawjoud!")
         throw new Error ('Conge not found!');
         }
-
-        if (conge.user_id.toString() !== req.user.id){
+        console.log(conge.employe_id ,req.user.id )
+        if (conge.employe_id.toString() !== req.user.id) {
             res.status(403);
             throw new Error ("user don't have permission to update other user contacts");
         }
@@ -66,7 +68,37 @@ const updateConge = asyncHandler(async(req,res)=>{
         {new:true}
     );
     res.status(200).json(updatedConge);
+    console.log("Request updated successfully!")
 })
+
+const respondToConge = asyncHandler(async (req, res) => {
+  const { response, comment } = req.body;
+  const congeId = req.params.id;
+
+  const conge = await Conge.findById(congeId);
+
+  if (!conge) {
+    res.status(404);
+    throw new Error("Leave request not found");
+  }
+
+  if (response === "Approved" || response === "Rejected") {
+    conge.reponse = response;
+    conge.commentaireHR = comment;
+    await conge.save();
+
+    // Update the Employee's notifications array
+    const employee = await Employe.findById(conge.employe_id);
+    employee.notifications.push(`Your leave request has been ${response.toLowerCase()}.`);
+    await employee.save();
+
+    res.status(200).json({ message: `Leave request ${response.toLowerCase()} successfully` });
+  } else {
+    res.status(400);
+    throw new Error("Invalid response value");
+  }
+});
+
 
 const deleteConge = asyncHandler (async (req,res)=>{
     const conge = await Conge.findById(req.params.id);
@@ -75,12 +107,12 @@ const deleteConge = asyncHandler (async (req,res)=>{
         console.log("mahouch mawjoud!")
         throw new Error ('Conge not found!');
         }
-        if (conge.user_id.toString() !== req.user.id){
+        if (conge.employe_id.toString() !== req.user.id){
             res.status(403);
             throw new Error ("user don't have permission to update other user contacts");
         }
         await Conge.deleteOne({ _id: req.params.id });
-        res.status(200).json({message:'Contact removed successfully!'});
+        res.status(200).json({message:'Request removed successfully!'});
 })
 
 module.exports = {
@@ -88,5 +120,6 @@ module.exports = {
     createConge,
     getConge,
     updateConge,
-    deleteConge
+    deleteConge,
+    respondToConge
   };
