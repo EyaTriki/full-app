@@ -10,10 +10,10 @@ const remoteSchema = mongoose.Schema({
     required:[true, "the reason for the remote request"],
   },
   debut:{
-    type:Date,
+    type:String,
   },
  fin:{
-    type:Date,
+    type:String,
   },
   duree:{
     type:String,

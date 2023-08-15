@@ -21,7 +21,7 @@ app.use("/api/conges" , require ("./routes/congeRoutes"));
 app.use("/api/employes" , require ("./routes/employeRoutes"));
 app.use("/api/users" , require ("./routes/userRoutes"));
 app.use("/api/resignations" , require ("./routes/resignationRoutes"));
-
+app.use("/api/remotes" , require ("./routes/remoteRoutes"));
 
 app.use(errorHandler);
 
