@@ -6,7 +6,12 @@ const employeSchema = mongoose.Schema({
   },
   role:{
     type:String,
+    enum: ["Graphic Designer", "Web Developer","Mobile Developer","DevOps", "Team Lead"],
   }, 
+  gender:{
+    type:String,
+    enum: ["Male", "Female"],
+  },
   email:{
     type:String,
     required:true,

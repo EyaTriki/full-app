@@ -66,8 +66,7 @@ const validateToken = asyncHandler(async (req, res, next) => {
 });
 
 
-
-   const verifyTokenAndAuthorization =asyncHandler(async(req,res,next)=>{
+const verifyTokenAndAuthorization =asyncHandler(async(req,res,next)=>{
   validateToken(req,res,()=>{
       if( req.user.role==="rh"){
           next();
