@@ -68,22 +68,22 @@ const validateToken = asyncHandler(async (req, res, next) => {
 
 const verifyTokenAndAuthorization =asyncHandler(async(req,res,next)=>{
   validateToken(req,res,()=>{
-      if( req.user.role==="rh"){
+      if( req.user.role==="rh"/* || req.user.role==="admin" */){
           next();
       }else{
           res.status(403).json("You are not allowed to do that!")
       }
   })
 }); 
- /*
+ 
 const verifyTokenAndAdminAuthorization =asyncHandler(async(req,res,next)=>{
   validateToken(req,res,()=>{
-      if( req.user.role==="admin"){
+      if( req.user.role==="admin"/* ||req.user._id===req.params._id */){
           next();
       }else{
           res.status(403).json("You are not allowed to do that!")
       }
   })
-});  */
+});  
  
-module.exports =validateToken, validateToken1,verifyTokenAndAuthorization ;
+module.exports =validateToken, validateToken1,verifyTokenAndAuthorization ,verifyTokenAndAdminAuthorization;

@@ -36,7 +36,7 @@ const createEmploye = asyncHandler(async (req, res) => {
       password,
       joining,
       birth,
-      employe_id: req.user.id, 
+      user_id: req.user.id, 
     });
 
     res.status(201).json(employe);
