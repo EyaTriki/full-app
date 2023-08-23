@@ -9,7 +9,7 @@ const multer= require("multer")
 connectDb();
 const app = express();
 
-const port = 5001 ;
+const port = process.env.PORT ;
 
 /*  const loggerMiddleware = (req,res,next)=>{
     console.log(`${new Date()} --- Request [${req.method}] [${req.url}]`);

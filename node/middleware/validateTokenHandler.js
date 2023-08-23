@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
-const Employe = require("../models/employeModel");
+const dotenv =require("dotenv").config();
 
 
 const validateToken1 = asyncHandler(async (req, res, next) => {
@@ -14,7 +14,7 @@ const validateToken1 = asyncHandler(async (req, res, next) => {
   
   token = authHeader.split(" ")[1];
 
-  jwt.verify(token, "mySecretKey", (err, decoded) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECERT, (err, decoded) => {
     if (err) {
       res.status(401).json({ message: "User is not authorized" });
       return; 
@@ -29,12 +29,12 @@ const validateToken = asyncHandler(async (req, res, next) => {
   let authHeader = req.headers.Authorization || req.headers.authorization;
   if (authHeader && authHeader.startsWith("Bearer")) {
     token = authHeader.split(" ")[1];
-    jwt.verify(token, "mySecretKey", (err, decoded) => {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECERT, (err, decoded) => {
       if (err) {
         // Token is invalid or expired, try using the refresh token
         if (refreshTokens.includes(req.body.refreshToken)) {
           // Verify the refresh token and generate new tokens
-          jwt.verify(req.body.refreshToken, "myRefreshSecretKey", (err, user) => {
+          jwt.verify(req.body.refreshToken, process.env.REFRESH_TOKEN_SECERT, (err, user) => {
             if (err) {
               res.status(401);
               throw new Error("Refresh token is not valid");

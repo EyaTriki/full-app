@@ -1,4 +1,4 @@
-
+const dotenv =require("dotenv").config();
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -85,7 +85,7 @@ const generateAccessToken = (user) => {
     email: user.email,
     role:user.role,
     id: user.id,
- } }, "mySecretKey", {
+ } }, process.env.ACCESS_TOKEN_SECERT, {
     expiresIn: "1h",
   });
 };
@@ -96,7 +96,7 @@ const generateRefreshToken = (user) => {
     email: user.email,
     role:user.role,
     id: user.id,
- } }, "myRefreshSecretKey");
+ } }, process.env.REFRESH_TOKEN_SECERT);
 };
 
 const loginUser = asyncHandler(async(req, res) => {

@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Employe = require("../models/employeModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const multer = require("multer")
+const dotenv =require("dotenv").config();
 
 
 const getEmployes =asyncHandler(async(req,res)=>{
@@ -70,7 +70,7 @@ const createEmploye = asyncHandler(async (req, res) => {
 const generateAccessToken = (user) => {
   return jwt.sign( {user: {
     id: user.id,
- } }, "mySecretKey", {
+ } }, process.env.ACCESS_TOKEN_SECERT, {
     expiresIn: "1h",
   });
 };

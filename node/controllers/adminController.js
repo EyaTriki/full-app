@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const dotenv =require("dotenv").config();
 
 
 const createRhAccount = asyncHandler(async (req, res) => {
@@ -39,7 +40,7 @@ const createRhAccount = asyncHandler(async (req, res) => {
   const generateAccessToken = (user) => {
     return jwt.sign( {user: {
       id: user.id,
-   } }, "mySecretKey", {
+   } }, process.env.ACCESS_TOKEN_SECERT, {
       expiresIn: "1h",
     });
   };
@@ -53,24 +54,7 @@ const createRhAccount = asyncHandler(async (req, res) => {
       if (!rh) {
         return res.status(401).json({ message: "Invalid email or password" });
       }
-  
-    /*   const trimmedPassword = String(password).trim();
-      const normalizedStoredPassword = String(rh.password).trim();
-  
-      console.log("Provided email:", email);
-      console.log("Trimmed password:", trimmedPassword);
-      console.log("Normalized stored password:", normalizedStoredPassword);
-      
-      console.log("Password match:", trimmedPassword === normalizedStoredPassword);
-  
-      if ( trimmedPassword !== normalizedStoredPassword) {
-        return res.status(401).json({ message: "Invalid email or password" });
-      } */
-  
-      // Generate an access token
-     /*  const accessToken = jwt.sign({ employeeId: employee._id }, "mySecretKey", { expiresIn: "1h" });
-      console.log(employee._id)
-      res.status(200).json({ accessToken }); */
+
       const passwordMatch = await bcrypt.compare(password, rh.password); // Compare hashed passwords
 
       if (!passwordMatch) {
