@@ -7,19 +7,30 @@ const User = require("../models/userModel");
 const createRhAccount = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
     
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!email.match(emailRegex)) {
+        res.status(400).json({ message: "Invalid email format." });
+        return;
+    }
+
+    // Check password length
+    if (password.length <= 8) {
+        res.status(400).json({ message: "Password must be longer than 8 characters." });
+        return;
+    }
   
     if (req.user.role !== "admin") {
       res.status(403).json({ message: "Access denied. Admin role required." });
       return;
     }
   
-   
+    const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
     //const hashedPassword = await bcrypt.hash(password, 10);
     const rhUser = await User.create({
       username,
       email,
       role: "rh",
-      password,
+      password:hashedPassword,
     });
   
     res.status(201).json({ _id: rhUser.id, email: rhUser.email });
@@ -43,7 +54,7 @@ const createRhAccount = asyncHandler(async (req, res) => {
         return res.status(401).json({ message: "Invalid email or password" });
       }
   
-      const trimmedPassword = String(password).trim();
+    /*   const trimmedPassword = String(password).trim();
       const normalizedStoredPassword = String(rh.password).trim();
   
       console.log("Provided email:", email);
@@ -54,12 +65,17 @@ const createRhAccount = asyncHandler(async (req, res) => {
   
       if ( trimmedPassword !== normalizedStoredPassword) {
         return res.status(401).json({ message: "Invalid email or password" });
-      }
+      } */
   
       // Generate an access token
      /*  const accessToken = jwt.sign({ employeeId: employee._id }, "mySecretKey", { expiresIn: "1h" });
       console.log(employee._id)
       res.status(200).json({ accessToken }); */
+      const passwordMatch = await bcrypt.compare(password, rh.password); // Compare hashed passwords
+
+      if (!passwordMatch) {
+          return res.status(401).json({ message: "Invalid email or password" });
+      }
       const accessToken = generateAccessToken (rh) ;
       
   
@@ -81,7 +97,6 @@ const createRhAccount = asyncHandler(async (req, res) => {
   
     res.status(200).json(rhAccounts);
   });
-
 
   const updateRhAccount = asyncHandler(async (req, res) => {
     const { username, email } = req.body;
@@ -106,7 +121,6 @@ const createRhAccount = asyncHandler(async (req, res) => {
   
     res.status(200).json(updatedAccount);
   });
-
 
   const deleteRhAccount = asyncHandler(async (req, res) => {
     const accountId = req.params.id;

@@ -24,8 +24,6 @@ const validateToken1 = asyncHandler(async (req, res, next) => {
   });
 });
 
-
-
 const validateToken = asyncHandler(async (req, res, next) => {
   let token;
   let authHeader = req.headers.Authorization || req.headers.authorization;
@@ -65,20 +63,28 @@ const validateToken = asyncHandler(async (req, res, next) => {
   }
 });
 
-
 const verifyTokenAndAuthorization =asyncHandler(async(req,res,next)=>{
   validateToken(req,res,()=>{
-      if( req.user.role==="rh"/* || req.user.role==="admin" */){
+      if( req.user.role==="rh" || req.user.role==="admin" ){
           next();
       }else{
           res.status(403).json("You are not allowed to do that!")
       }
   })
-}); 
- 
+});  
+
 const verifyTokenAndAdminAuthorization =asyncHandler(async(req,res,next)=>{
   validateToken(req,res,()=>{
-      if( req.user.role==="admin"/* ||req.user._id===req.params._id */){
+      if( req.user.role==="admin"){
+          next();
+      }else{
+          res.status(403).json("You are not allowed to do that!")
+      }
+  })
+});  
+const verifyTokenAndRHuthorization =asyncHandler(async(req,res,next)=>{
+  validateToken(req,res,()=>{
+      if( req.user.role==="rh"){
           next();
       }else{
           res.status(403).json("You are not allowed to do that!")
@@ -86,4 +92,4 @@ const verifyTokenAndAdminAuthorization =asyncHandler(async(req,res,next)=>{
   })
 });  
  
-module.exports =validateToken, validateToken1,verifyTokenAndAuthorization ,verifyTokenAndAdminAuthorization;
+module.exports =validateToken, validateToken1,verifyTokenAndAuthorization ,verifyTokenAndAdminAuthorization,verifyTokenAndRHuthorization;

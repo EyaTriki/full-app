@@ -38,7 +38,6 @@ const createConge = asyncHandler(async (req, res) => {
     }
   });
   
-
 const getConge = asyncHandler(async (req,res)=>{
     const conge = await  Conge.findById(req.params.id);
     console.log(req.params.id)
@@ -98,7 +97,6 @@ const respondToConge = asyncHandler(async (req, res) => {
     throw new Error("Invalid response value");
   }
 });
-
 
 const deleteConge = asyncHandler (async (req,res)=>{
     const conge = await Conge.findById(req.params.id);

@@ -32,7 +32,6 @@ const createDocument = asyncHandler(async (req, res) => {
       res.status(500).json({ message: "An error occurred while creating document request" });
     }
   });
-  
 
 const getDocument = asyncHandler(async (req,res)=>{
     const document = await  Document.findById(req.params.id);
@@ -77,7 +76,6 @@ const updateDocument = asyncHandler(async (req, res) => {
     }
   });
   
-
 const respondToDocument = asyncHandler(async (req, res) => {
   const { response, comment } = req.body;
   const documentId = req.params.id;
@@ -105,7 +103,6 @@ const respondToDocument = asyncHandler(async (req, res) => {
     throw new Error("Invalid response value");
   }
 });
-
 
 const deleteDocument = asyncHandler (async (req,res)=>{
     const document = await Document.findById(req.params.id);

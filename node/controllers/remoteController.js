@@ -34,7 +34,6 @@ const createRemote = asyncHandler(async (req, res) => {
     }
   });
   
-
 const getRemote = asyncHandler(async (req,res)=>{
     const remote = await  Remote.findById(req.params.id);
     console.log(req.params.id)
@@ -78,7 +77,6 @@ const updateRemote = asyncHandler(async (req, res) => {
     }
   });
   
-
 const respondToRemote = asyncHandler(async (req, res) => {
   const { response, comment } = req.body;
   const remoteId = req.params.id;
@@ -106,7 +104,6 @@ const respondToRemote = asyncHandler(async (req, res) => {
     throw new Error("Invalid response value");
   }
 });
-
 
 const deleteRemote = asyncHandler (async (req,res)=>{
     const remote = await Remote.findById(req.params.id);

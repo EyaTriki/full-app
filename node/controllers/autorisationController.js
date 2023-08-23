@@ -13,7 +13,10 @@ const createAutorisation = asyncHandler(async (req, res) => {
     try {
         console.log("Received request body:", req.body);
       const {  raison, date, duree } = req.body;
-      
+      if(req.user.role == "admin" || req.user.role=="rh"){
+        res.status(400);
+        throw new Error('you are not allowed to create request!');
+      }
       if (!raison || !date || !duree) {
         res.status(400);
         throw new Error("All fields are required!");
@@ -34,7 +37,6 @@ const createAutorisation = asyncHandler(async (req, res) => {
     }
   });
   
-
 const getAutorisation = asyncHandler(async (req,res)=>{
     const autorisation = await  Autorisation.findById(req.params.id);
     console.log(req.params.id)
@@ -94,7 +96,6 @@ const respondToAutorisation = asyncHandler(async (req, res) => {
     throw new Error("Invalid response value");
   }
 });
-
 
 const deleteAutorisation = asyncHandler (async (req,res)=>{
     const autorisation = await Autorisation.findById(req.params.id);

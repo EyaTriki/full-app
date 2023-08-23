@@ -20,9 +20,8 @@ const employeSchema = mongoose.Schema({
     type:String,
     //required:[true, "Please add the phone number"],
   },
-  image:{
-    type:String,
-  }, 
+  file:{String} ,
+  image:{String}, 
   password:{
     type:String,
     required:[true, "Please add a password"],
@@ -43,8 +42,6 @@ const employeSchema = mongoose.Schema({
     required:true,
     ref:"User",
   },
- 
- 
 },{
     timestamps:true
 });

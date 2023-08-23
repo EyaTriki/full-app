@@ -11,9 +11,12 @@ const {
 const validateToken1 = require("../middleware/validateTokenHandler");
 
 const verifyTokenAndAuthorization = require("../middleware/validateTokenHandler");
+
 router.use(validateToken1);
+
 router.route("/").get(getAutorisations).post(createAutorisation);
 router.route("/:id").get(getAutorisation).put(updateAutorisation).delete(deleteAutorisation);
-router.post("/:id/respond",verifyTokenAndAuthorization, respondToAutorisation);
 
-module.exports=router;
+// Apply the verifyTokenAndAuthorization middleware to the /:id/respond route
+router.post("/:id/respond", verifyTokenAndAuthorization, respondToAutorisation);
+module.exports = router;

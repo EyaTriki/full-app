@@ -2,15 +2,32 @@ const asyncHandler = require("express-async-handler");
 const Employe = require("../models/employeModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const multer = require("multer")
+
 
 const getEmployes =asyncHandler(async(req,res)=>{
     const employes=await Employe.find({});
     res.status(200).json(employes);
 })
 
+
 const createEmploye = asyncHandler(async (req, res) => {
   console.log("the req body is:", req.body);
-  const { image, name, role, email, phone, password, joining, birth } = req.body;
+  const { name, role, email, phone, file, image, password, joining, birth } = req.body;
+
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  if (!email.match(emailRegex)) {
+    res.status(400).json({ message: "Invalid email format." });
+    return;
+  }
+
+  // Check password length
+  if (password.length <= 8) {
+    res.status(400).json({ message: "Password must be longer than 8 characters." });
+    return;
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   if (!email || !password) {
     res.status(400);
@@ -25,21 +42,24 @@ const createEmploye = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error("An employee with this email already exists!");
     }
+        // Créez l'employé en associant l'ID de l'utilisateur actuel
+        const employe = await Employe.create({
+          name,
+          role,
+          email,
+          phone,
+          file,
+          image,
+          password: hashedPassword,
+          joining,
+          birth,
+          user_id: req.user.id,
+        });
 
-    // Créez l'employé en associant l'ID de l'utilisateur actuel
-    const employe = await Employe.create({
-      image,
-      name,
-      role,
-      email,
-      phone,
-      password,
-      joining,
-      birth,
-      user_id: req.user.id, 
-    });
-
-    res.status(201).json(employe);
+        console.log("Created employe:", employe);
+        res.status(201).json(employe);
+      
+    
   } catch (error) {
     // Gérez l'erreur ici en affichant les détails de l'erreur
     console.error("Error creating employee:", error);
@@ -66,7 +86,7 @@ const employeeLogin = asyncHandler(async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const trimmedPassword = String(password).trim();
+    /* const trimmedPassword = String(password).trim();
     const normalizedStoredPassword = String(employee.password).trim();
 
     console.log("Provided email:", email);
@@ -78,11 +98,16 @@ const employeeLogin = asyncHandler(async (req, res) => {
     if ( trimmedPassword !== normalizedStoredPassword) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-
+ */
     // Generate an access token
    /*  const accessToken = jwt.sign({ employeeId: employee._id }, "mySecretKey", { expiresIn: "1h" });
     console.log(employee._id)
     res.status(200).json({ accessToken }); */
+    const passwordMatch = await bcrypt.compare(password, employee.password); // Compare hashed passwords
+
+    if (!passwordMatch) {
+        return res.status(401).json({ message: "Invalid email or password" });
+    }
     const accessToken = generateAccessToken (employee) ;
     
 
@@ -92,8 +117,6 @@ const employeeLogin = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "An error occurred during login" });
   }
 });
-
-
 
 const getEmploye= asyncHandler(async (req,res)=>{
     const employe = await  Employe.findById(req.params.id);

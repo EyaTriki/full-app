@@ -32,7 +32,6 @@ const createResignation = asyncHandler(async (req, res) => {
     }
   });
   
-
 const getResignation = asyncHandler(async (req,res)=>{
     const resignation = await  Resignation.findById(req.params.id);
     console.log(req.params.id)
@@ -92,7 +91,6 @@ const respondToResignation = asyncHandler(async (req, res) => {
     throw new Error("Invalid response value");
   }
 });
-
 
 const deleteResignation = asyncHandler (async (req,res)=>{
     const resignation = await Resignation.findById(req.params.id);

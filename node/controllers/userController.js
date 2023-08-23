@@ -7,6 +7,18 @@ const User = require("../models/userModel");
 
 const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password, role } = req.body;
+  
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  if (!email.match(emailRegex)) {
+      res.status(400).json({ message: "Invalid email format." });
+      return;
+  }
+
+  // Check password length
+  if (password.length <= 8) {
+      res.status(400).json({ message: "Password must be longer than 8 characters." });
+      return;
+  }
   if (!username || !email || !password) {
     res.status(400);
     throw new Error("All fields are required!");
@@ -23,7 +35,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     username,
     email,
-    role,
+    role:"admin",
     password: hashedPassword,
   
   });
@@ -38,9 +50,7 @@ const registerUser = asyncHandler(async (req, res) => {
   res.json({ message: "Register" });
 });
 
-
 let refreshTokens = [];
-
 
 const refresh = asyncHandler(async (req, res) => {
   //take the refresh token from the user
@@ -89,7 +99,6 @@ const generateRefreshToken = (user) => {
  } }, "myRefreshSecretKey");
 };
 
-
 const loginUser = asyncHandler(async(req, res) => {
   const { email, password } = req.body;
   //console.log(req.body)
@@ -127,14 +136,10 @@ const currentUser = asyncHandler(async (req, res) => {
   }
 });
 
-
-
 const logoutUser = asyncHandler(async(req, res) => {
   const refreshToken = req.body.token;
   refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
   res.status(200).json({ message: "You logged out successfully." });
 });
-
-
 
 module.exports = {logoutUser, loginUser, refresh ,currentUser ,registerUser}; 

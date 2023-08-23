@@ -36,7 +36,6 @@ const createFormation = asyncHandler(async (req, res) => {
     }
   });
   
-
 const getFormation = asyncHandler(async (req,res)=>{
     const formation = await  Formation.findById(req.params.id);
     console.log(req.params.id)
@@ -80,7 +79,6 @@ const updateFormation = asyncHandler(async (req, res) => {
     }
   });
   
-
 const respondToFormation = asyncHandler(async (req, res) => {
   const { response, comment } = req.body;
   const formationId = req.params.id;
@@ -108,7 +106,6 @@ const respondToFormation = asyncHandler(async (req, res) => {
     throw new Error("Invalid response value");
   }
 });
-
 
 const deleteFormation = asyncHandler (async (req,res)=>{
     const formation = await Formation.findById(req.params.id);
