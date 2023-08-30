@@ -5,9 +5,10 @@ const User = require("../models/userModel");
 const dotenv =require("dotenv").config();
 
 
+
 const createRhAccount = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
-    
+    // Check the email format
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!email.match(emailRegex)) {
         res.status(400).json({ message: "Invalid email format." });
@@ -44,6 +45,7 @@ const createRhAccount = asyncHandler(async (req, res) => {
       expiresIn: "1h",
     });
   };
+  
   const rhLogin = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
   

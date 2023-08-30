@@ -83,7 +83,7 @@ const handleDelete =async(id)=>{
     <div className="datatable">
 <div className="datatableTitle">Add New User
 <Link to ="/users/new" style={{textDecoration:"none"}} className="link">
-Add New</Link></div>
+          Add New</Link></div>
       <DataGrid
         className="datagrid"
         rows={data}

@@ -10,7 +10,6 @@ const getEmployes =asyncHandler(async(req,res)=>{
     res.status(200).json(employes);
 })
 
-
 const createEmploye = asyncHandler(async (req, res) => {
   console.log("the req body is:", req.body);
   const { name, role, email, phone, file, image, password, joining, birth } = req.body;

@@ -129,12 +129,13 @@ const loginUser = asyncHandler(async(req, res) => {
 
 const currentUser = asyncHandler(async (req, res) => {
   try {
-    const user = await res.json(req.user); // Get the user object
-  
+    const user = req.user; // Get the user object from the request
+    res.status(200).json(user); // Send the user object as a JSON response
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving user email" });
+    res.status(500).json({ message: "Error retrieving user information" });
   }
 });
+
 
 const logoutUser = asyncHandler(async(req, res) => {
   const refreshToken = req.body.token;

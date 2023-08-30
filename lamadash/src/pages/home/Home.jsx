@@ -20,9 +20,9 @@ const Home = () => {
         <Chart title="Last 6 Months (Rate)" aspect={4/1}/>
 </div>
       <div className="charts">
-     {/*  <Featured/>  */}
+     <Featured/> 
        {/*  <Chart3 title="Contracts" aspect={4/1}/>  */}
-        <Chart2 title="Contracts" aspect={4/1}/>
+        <Chart2 title="Contracts" aspect={3/1}/>
        
         <div className="widgets">
         <Widget type='user'/>

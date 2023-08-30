@@ -26,7 +26,7 @@ const Chart = ({aspect,title}) => {
     <div className="chart">
       <div className="title">{title}</div>
       <ResponsiveContainer width="100%" aspect={aspect}>
-       {/*  <AreaChart
+    {/*     <AreaChart
           width={730}
           height={250}
           data={data}
@@ -48,7 +48,7 @@ const Chart = ({aspect,title}) => {
             fillOpacity={1}
             fill="url(#total)"
           />
-        </AreaChart> */}
+        </AreaChart>  */}
         <LineChart width={730} height={250} data={data}
   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
   <CartesianGrid strokeDasharray="3 3" />
