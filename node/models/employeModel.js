@@ -21,6 +21,7 @@ const employeSchema = mongoose.Schema({
     //required:[true, "Please add the phone number"],
   },
   file:{String} ,
+  age:{type: Number },
   image:{String}, 
   password:{
     type:String,
@@ -39,7 +40,7 @@ const employeSchema = mongoose.Schema({
   ],
   user_id:{
     type:mongoose.Schema.Types.ObjectId,
-    required:true,
+    //required:true,
     ref:"User",
   },
 },{

@@ -3,7 +3,7 @@ export const userInputs = [
   {
     id: 1,
     label: "Image",
- // type: "file",
+    type: "text",
    
   },{
       id: 2,
@@ -38,13 +38,13 @@ export const userInputs = [
     {
       id: 7,
       label: "joining ",
-      type: String,
+      type: Date,
       placeholder: "05-08-2023",
     },
     {
       id: 8,
       label: "birth ",
-      type: String,
+      type: Date,
       placeholder: "08-01-2000",
     },
   ];

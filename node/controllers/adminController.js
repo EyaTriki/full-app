@@ -27,7 +27,6 @@ const createRhAccount = asyncHandler(async (req, res) => {
     }
   
     const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
-    //const hashedPassword = await bcrypt.hash(password, 10);
     const rhUser = await User.create({
       username,
       email,
@@ -126,6 +125,7 @@ const createRhAccount = asyncHandler(async (req, res) => {
   
     res.status(200).json({ message: "Account deleted successfully" });
   });
+ 
   const getRhAccount = asyncHandler(async (req, res) => {
     const accountId = req.params.id;
   

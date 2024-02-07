@@ -47,7 +47,8 @@ const validateToken = require("../middleware/validateTokenHandler");
  *             example:
  *               message: An error occurred while retrieving employes
  */
-router.get("/",validateToken,getEmployes)
+//router.get("/",validateToken,getEmployes)
+router.get("/",getEmployes)
 /**
  * @swagger
  * /api/employes/login:
@@ -172,7 +173,8 @@ router.post("/login", employeeLogin);
  *             example:
  *               message: An error occurred while creating an employee
  */
-router.post("/",validateToken, createEmploye)
+//router.post("/",validateToken, createEmploye)
+router.post("/",createEmploye)
 /**
  * @swagger
  * /api/employes/{id}:

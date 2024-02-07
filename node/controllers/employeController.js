@@ -41,18 +41,19 @@ const createEmploye = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error("An employee with this email already exists!");
     }
+    const fileData = file ? { file } : {};
         // Créez l'employé en associant l'ID de l'utilisateur actuel
         const employe = await Employe.create({
           name,
           role,
           email,
           phone,
-          file,
+          ...fileData,
           image,
           password: hashedPassword,
           joining,
           birth,
-          user_id: req.user.id,
+          //user_id: req.user.id,
         });
 
         console.log("Created employe:", employe);
